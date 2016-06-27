@@ -312,9 +312,15 @@ void exceptionHandler(NSException *exception) {
     }
 }
 
-- (void)setupExceptionHandler {
+- (void)setupExceptionHandler
+{
     NSSetUncaughtExceptionHandler(&exceptionHandler);
+    
+    [self uploadPersistedReports];
+}
 
+- (void)uploadPersistedReports
+{
     // Process saved crash reports
     NSMutableArray *reports = [NSMutableArray arrayWithArray:[[NSUserDefaults standardUserDefaults] objectForKey:userDefaultsKey]];
     if (reports != nil && [reports count]) {
